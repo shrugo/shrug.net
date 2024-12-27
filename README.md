@@ -1,1 +1,3 @@
 # shrug.net
+
+by Ed

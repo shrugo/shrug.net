@@ -1,207 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>H2</title>
-  
-  <script type="module" src="https://unpkg.com/@google/model-viewer@latest/dist/model-viewer.min.js"></script>
-  <script nomodule src="https://unpkg.com/@google/model-viewer@latest/dist/model-viewer-legacy.min.js"></script>
-  
-  <style>
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>H2</title>
 
-    body, html {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      background-color: #000000;
-      font-family: Arial, sans-serif;
-      color: #FFFFFF;
-    }
+    <script type="module" src="https://unpkg.com/@google/model-viewer@latest/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer@latest/dist/model-viewer-legacy.min.js"></script>
 
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #000000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: transform 1s ease, opacity 1s ease;
-      transform: translateY(0);
-      opacity: 1;
-    }
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    #loading-screen.slide-up {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #ffffff;
+        background-color: #000000;
+      }
 
-    #loading-screen img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+      body {
+        display: flex;
+        flex-direction: column;
+      }
 
-    model-viewer {
-      width: 90vw;
-      max-width: 1300px;
-      height: auto;
-      aspect-ratio: 1.5;
-      margin: 30px auto 0 auto;
-      background-color: #000000;
-    }
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: transform 1s ease, opacity 1s ease;
+        transform: translateY(0);
+        opacity: 1;
+      }
 
-    .star-rating {
-      margin: 10px 0;
-      font-size: 3rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-    }
+      #loading-screen.slide-up {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
 
-    .full-star-rating {
-      color: #FFFFFF;
-      font-size: 3rem;
-    }
+      #loading-screen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
 
-    .half-star-rating {
-      --color-full: white;
-      --color-empty: #000000;
-      --ratio: 50%;
-      font-size: 3rem;
-      color: var(--color-empty);
-      background: linear-gradient(
-        to right,
-        var(--color-full),
-        var(--color-full) var(--ratio),
-        var(--color-empty) var(--ratio),
-        var(--color-empty)
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+      .split-view {
+        flex: 1;
+        display: flex;
+        width: 100%;
+        height: 100%;
+      }
 
-    .transfer-button {
-      margin-top: 20px;
-      padding: 18px 24px;
-      font-size: 1.2rem;
-      color: #FFFFFF;
-      background-color: #007BFF;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      width: 60%;
-      max-width: 400px;
-    }
+      .pane {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
 
-    .transfer-button:hover,
-    .transfer-button:focus {
-      background-color: #0056b3;
-      outline: none;
-    }
+      .pane-left {
+        background-color: #000000;
+      }
 
-    .button-container {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 120px;
-    }
+      .pane-right {
+        background-color: #ffffff;
+      }
 
-    .spacer {
-      height: 150px;
-      width: 100%;
-    }
-
-    @media (max-width: 600px) {
       model-viewer {
-        width: 95vw;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        --poster-color: transparent;
       }
 
-      .transfer-button {
-        padding: 14px 16px;
+      .fallback-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.2rem;
+        pointer-events: none;
       }
 
-      .button-container {
-        margin-bottom: 80px;
+      .pane-right .fallback-message {
+        color: #000000;
       }
 
-      .spacer {
-        height: 100px;
+      .attribution {
+        padding: 16px 24px;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        color: #cccccc;
+        background-color: #000000;
       }
-    }
-  </style>
-</head>
-<body>
-  <div id="loading-screen" aria-hidden="true">
-    <img src="Z2.png" alt="Loading screen with logo" />
-  </div>
 
-  <model-viewer 
-    src="h2acty.glb" 
-    alt="3D model of a truck" 
-    auto-rotate 
-    camera-controls 
-    background-color="#000000"
-    interaction-prompt="none"
-    shadow-intensity="0">
-    <p id="fallback-message" style="color: white; text-align: center;">Loading...</p>
-  </model-viewer>
+      .attribution a {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading-screen" aria-hidden="true">
+      <img src="Z2.png" alt="Loading screen with logo" />
+    </div>
 
-  <div class="star-rating" aria-label="3.5 out of 5 stars">
-    <span class="full-star-rating" aria-hidden="true">★★★</span>
-    <span class="half-star-rating" aria-hidden="true">★</span>
-  </div>
+    <div class="split-view">
+      <section class="pane pane-left" aria-label="H2 Acty model">
+        <model-viewer
+          id="model-acty"
+          src="h2acty.glb"
+          alt="3D model of the H2 Acty"
+          auto-rotate
+          camera-controls
+          disable-pan
+          interaction-prompt="none"
+          shadow-intensity="0"
+          background-color="#000000">
+          <p class="fallback-message">Loading...</p>
+        </model-viewer>
+      </section>
+      <section class="pane pane-right" aria-label="H2 Mac Plus model">
+        <model-viewer
+          id="model-macplus"
+          src="h2macplus.glb"
+          alt="3D model of the H2 Mac Plus"
+          auto-rotate
+          camera-controls
+          disable-pan
+          camera-orbit="0deg 75deg 105%"
+          interaction-prompt="none"
+          shadow-intensity="0"
+          background-color="#ffffff">
+          <p class="fallback-message">Loading...</p>
+        </model-viewer>
+      </section>
+    </div>
 
-  <div style="top-margin:150px;"><br>
-<br>
-<br>
-</div>
+    <footer class="attribution">
+      "Honda Acty" (
+      <a href="https://skfb.ly/oPw7U" target="_blank" rel="noopener noreferrer">https://skfb.ly/oPw7U</a>
+      ) by Mona x Supercars is licensed under
+      <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">
+        Creative Commons Attribution
+      </a>
 
-<script>
+      <br />
+      "Personal Computer &quot;Macintosh Plus&quot;, 3-teilig" (
+      <a href="https://skfb.ly/oLNAK" target="_blank" rel="noopener noreferrer">https://skfb.ly/oLNAK</a>
+      ) by Deutsches Museum | Digital is licensed under
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">
+        Creative Commons Attribution-ShareAlike
+      </a>
+    </footer>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const modelViewer = document.querySelector('model-viewer');
-      const fallback = document.getElementById('fallback-message');
-      const loadingScreen = document.getElementById('loading-screen');
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const modelViewers = Array.from(document.querySelectorAll("model-viewer"));
+        const loadingScreen = document.getElementById("loading-screen");
 
-      const modelLoaded = new Promise(resolve => {
-        modelViewer.addEventListener('load', resolve);
+        const modelLoaded = modelViewers.map(
+          (viewer) =>
+            new Promise((resolve) => {
+              viewer.addEventListener("load", resolve, { once: true });
+            })
+        );
+
+        const timeout = new Promise((resolve) => {
+          setTimeout(resolve, 2750);
+        });
+
+        Promise.all([...modelLoaded, timeout]).then(() => {
+          document.querySelectorAll(".fallback-message").forEach((fallback) => {
+            fallback.style.display = "none";
+          });
+          loadingScreen.classList.add("slide-up");
+          setTimeout(() => {
+            loadingScreen.style.display = "none";
+          }, 1000);
+        });
+
+        modelViewers.forEach((viewer) => {
+          viewer.addEventListener("error", (event) => {
+            console.error(`Error loading 3D model (${viewer.getAttribute("src")}):`, event);
+            const fallback = viewer.querySelector(".fallback-message");
+            fallback.textContent = "Failed to load the 3D model.";
+          });
+        });
       });
-
-      const timeout = new Promise(resolve => {
-        setTimeout(resolve, 2750);
-      });
-
-      Promise.all([modelLoaded, timeout]).then(() => {
-        fallback.style.display = 'none';
-        loadingScreen.classList.add('slide-up');
-        setTimeout(() => {
-          loadingScreen.style.display = 'none';
-        }, 1000);
-      });
-
-      modelViewer.addEventListener('error', event => {
-        console.error('Error loading 3D model:', event);
-        fallback.textContent = 'Failed to load the 3D model.';
-      });
-    });
-</script>
-</body>
+    </script>
+  </body>
 </html>

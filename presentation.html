@@ -1,11 +1,132 @@
-<html>
-  <head></head>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Alex's Presentation Party</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #1c1c1c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 40px;
+      }
+
+      .mac-plus {
+        position: relative;
+        background: linear-gradient(158deg, #ddd5b5 0%, #ccc0a0 55%, #bfb28c 100%);
+        border-radius: 26px 26px 20px 20px;
+        padding: 58px 58px 0;
+        box-shadow:
+          inset 0 2px 0 rgba(255, 255, 255, 0.6),
+          inset 2px 0 0 rgba(255, 255, 255, 0.3),
+          inset -2px 0 0 rgba(0, 0, 0, 0.08),
+          5px 5px 0 #b0a888,
+          7px 7px 0 #a09878,
+          0 30px 90px rgba(0, 0, 0, 0.85),
+          0 12px 35px rgba(0, 0, 0, 0.5);
+      }
+
+      .screen-housing {
+        background: linear-gradient(175deg, #726656 0%, #645a4a 60%, #584e40 100%);
+        border-radius: 8px 8px 6px 6px;
+        padding: 10px 10px 14px;
+        box-shadow:
+          inset 0 4px 12px rgba(0, 0, 0, 0.75),
+          inset 2px 0 8px rgba(0, 0, 0, 0.35),
+          inset -2px 0 8px rgba(0, 0, 0, 0.35),
+          0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+
+      /* "Macintosh Plus" label embossed into bottom of screen bezel */
+      .screen-housing::after {
+        display: block;
+        text-align: center;
+        font-family: "Geneva", "Chicago", "Helvetica Neue", Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        color: rgba(255, 255, 255, 0.18);
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+        padding-top: 6px;
+        user-select: none;
+      }
+
+      .screen-inner {
+        display: block;
+        line-height: 0;
+        background: #050505;
+        box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+      }
+
+      .screen-inner iframe {
+        display: block;
+      }
+
+      .bottom-panel {
+        height: 100px;
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Subtle crease line across top of bottom panel */
+      .bottom-panel::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -136px;
+        right: -136px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(0, 0, 0, 0.12) 15%,
+          rgba(0, 0, 0, 0.18) 50%,
+          rgba(0, 0, 0, 0.12) 85%,
+          transparent 100%
+        );
+      }
+
+      .apple-logo {
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 22px;
+        color: #a09070;
+        user-select: none;
+        line-height: 1;
+        /* Use system Apple glyph */
+        font-family: -apple-system, sans-serif;
+      }
+    </style>
+  </head>
   <body>
-    <iframe
-      src="https://infinitemac.org/embed?disk=System+6.0.8&disk_url=https%3A%2F%2Farchive.org%2Fdownload%2FAKryzzie%2FAKryzzie.img&machine=Mac+Plus&screen_scale=2"
-      width="1024"
-      height="684"
-      allow="cross-origin-isolated"
-      frameborder="0"></iframe>
+    <div class="mac-plus">
+      <div class="screen-housing">
+        <div class="screen-inner">
+          <iframe
+            src="https://infinitemac.org/embed?disk=System+6.0.8&disk_url=https%3A%2F%2Farchive.org%2Fdownload%2FAKryzzie%2FAKryzzie.img&machine=Mac+Plus&screen_scale=2"
+            width="1024"
+            height="684"
+            allow="cross-origin-isolated"
+            frameborder="0"></iframe>
+        </div>
+      </div>
+      <div class="bottom-panel">
+        <span class="apple-logo">&#63743;</span>
+      </div>
+    </div>
   </body>
 </html>
